@@ -1,6 +1,8 @@
 body {
     width: 100%;
+    padding: 0;
     margin: 0;
+    overflow-x: hidden;
   }
   
 .navbar {
@@ -8,13 +10,12 @@ body {
     width: 100%;
   }
 
-  .active {
-    background-color: #04AA6D;
+.active {
     border-radius: 5px;
     color: white;
   }
 
-  .navbar-link {
+.navbar-link {
     color: #f2f2f2;
     text-align: center;
     padding: 10px 16px;
@@ -24,14 +25,55 @@ body {
     font-weight: 700;
   }
   
-  .navbar-link:hover {
+.navbar-link:hover {
     background-color: #ddd;
     color: black;
     border-radius: 40px;
   }
   
-  .active {
+.active {
     background-color: black;
     border-radius: 40px;
     color: white;
+  }
+
+.home-page {
+   background-image: url(https://www.seekpng.com/png/detail/42-426149_about-us-dog-paw-background-png.png);
+  }
+
+  .hero-section {
+    background-color: white;
+    padding: 100px;
+    border-radius: 40px;
+  }
+
+  .about-us-section {
+    background-color: #bd50f0;
+  }
+
+  .card-body {
+    background-color:  #bd50f0;
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+  }
+
+  .card-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(255, 255, 255)
+  }
+
+  .about-us-text {
+    color: white;
+  }
+
+  .about-us-title {
+    font-weight: 700;
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
   }
