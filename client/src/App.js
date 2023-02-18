@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Topbar from './Topbar';
 import Home from "./Home";
@@ -8,10 +8,23 @@ import Signup from './Signup';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  
-  console.log(user)
+  useEffect(() => {
+    setLoading(true);
+    fetch("/me").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => {
+          setUser(user)
+          setLoading(false)
+        });
+      }
+    });
+  }, []);
 
+  if (loading) {
+    return <div className="home-page"></div>;
+  }
 
   return (
     <BrowserRouter>

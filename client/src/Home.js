@@ -8,7 +8,7 @@ const petWalkingImage = "https://www.thesprucepets.com/thmb/LPUxuEE-eV8hIdUIh8Qx
 
 function Home() {
 return (
-<div className="home-page">
+<div>
   <div className="container">
     <div className="row">
       <div className="col-md-2"></div>

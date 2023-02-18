@@ -122,7 +122,7 @@ function Signup({setUser}) {
   }
 
   return (
-  <div className="home-page">
+  <div>
     <div className="form-details">
       <Form onSubmit={handleSubmit}>
         <h2>Sign Up</h2>
