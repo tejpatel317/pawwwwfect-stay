@@ -24,7 +24,7 @@ function Login({setUser}) {
         r.json().then((user) => setUser(user));
         navigate('/')
       } else {
-        r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
+        r.json().then((err) => console.log(err.errors)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
       }
     });
   }

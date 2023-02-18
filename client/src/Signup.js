@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Signup(setUser) {
+function Signup({setUser}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');

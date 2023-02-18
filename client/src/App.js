@@ -9,6 +9,10 @@ import Signup from './Signup';
 function App() {
   const [user, setUser] = useState(null);
 
+  
+  console.log(user)
+
+
   return (
     <BrowserRouter>
     <div className="home-page">
@@ -18,7 +22,7 @@ function App() {
           (<Routes>
             <Route path="/"/>
             <Route index element={<Home/>} />
-            <Route path="Login" element={<Login/>} />
+            <Route path="Login" element={<Login setUser={setUser}/>} />
             <Route path="Signup" element={<Signup setUser={setUser}/>} />
             <Route/>
           </Routes>)
@@ -26,7 +30,7 @@ function App() {
           (<Routes>
             <Route path="/"/>
             <Route index element={<Home/>} />
-            <Route path="Login" element={<Login/>} />
+            <Route path="Login" element={<Login setUser={setUser}/>} />
             <Route path="Signup" element={<Signup setUser={setUser}/>} />
             <Route/>
           </Routes>)
