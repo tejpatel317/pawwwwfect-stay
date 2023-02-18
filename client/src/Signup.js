@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Signup() {
+function Signup(setUser) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -114,7 +114,7 @@ function Signup() {
     }).then((r) => {
       if (r.ok) {
         navigate('/')
-        r.json().then((user) => console.log(user));
+        r.json().then((user) => setUser(user));
       } else {
         r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
       }

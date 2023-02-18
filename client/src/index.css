@@ -39,6 +39,7 @@ body {
 
 .home-page {
   background-image: url(https://www.seekpng.com/png/detail/42-426149_about-us-dog-paw-background-png.png);
+  min-height: 100vh; /* set the minimum height to the height of the viewport */
 }
 
 .hero-section {
