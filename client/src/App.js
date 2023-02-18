@@ -7,16 +7,16 @@ import Signup from './Signup';
 
 function App() {
   return (
-      <BrowserRouter>
-        <Topbar/>
-          <Routes>
-            <Route path="/"/>
-              <Route index element={<Home/>} />
-              <Route path="Login" element={<Login/>} />
-              <Route path="Signup" element={<Signup/>} />
-            <Route/>
-          </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Topbar/>
+      <Routes>
+        <Route path="/"/>
+        <Route index element={<Home/>} />
+        <Route path="Login" element={<Login/>} />
+        <Route path="Signup" element={<Signup/>} />
+        <Route/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
