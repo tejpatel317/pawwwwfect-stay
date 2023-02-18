@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [email, setEmail] = useState('');
@@ -24,12 +24,13 @@ function Signup() {
     { value: 'Pet Sitting', label: 'Pet Sitting' },
     { value: 'Pet Activity', label: 'Pet Activity' },
   ]);
-
+  const navigate = useNavigate();
+  
   const handleAddService = (event) => {
     event.preventDefault();
     if (!selectedService || !rate) return;
-    if (services.some((service) => service.service === selectedService)) return;
-    setServices([...services, { service: selectedService, rate: rate }]);
+    if (services.some((service) => service.description === selectedService)) return;
+    setServices([...services, { description: selectedService, rate: rate }]);
     setAvailableServices(availableServices.filter((service) => service.value !== selectedService));
     setSelectedService('');
     setRate('');
@@ -38,12 +39,86 @@ function Signup() {
   const handleRemoveService = (index) => {
     const serviceToRemove = services[index];
     setServices(services.filter((_, i) => i !== index));
-    setAvailableServices([...availableServices, { value: serviceToRemove.service, label: serviceToRemove.service }]);
+    setAvailableServices([...availableServices, { value: serviceToRemove.description, label: serviceToRemove.description }]);
   };
+
+  function validateEmail(email) {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  function validatePasswordMatch() {
+    return (password === passwordConfirmation)
+  }
+
+  function validatePhoneNumber(phoneNumber) {
+    const re = /^\d{10}$/;
+    return re.test(phoneNumber);
+  }
+
+  function validateEmergencyPhoneNumber(phoneNumber) {
+    const re = /^\d{10}$/;
+    return re.test(phoneNumber);
+  }
+
+  function validateZipCode(zipCode) {
+    const re = /^\d{5}$/;
+    return re.test(zipCode);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!validateEmail(email) || !validatePasswordMatch(password, passwordConfirmation) || !validatePhoneNumber(phoneNumber) || !validateZipCode(zipCode)) {
+      console.log("Invalid user data");
+      return;
+    }
+
+    if (role === 'owner' && !validateEmergencyPhoneNumber(emergencyPhoneNumber)) {
+      console.log("Invalid emergency phone number");
+      return;
+    }
+  
+    if (role === 'sitter' && services.length === 0) {
+      alert("Please select at least one service.");
+      return;
+    }
+
+    const userData = {
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
+      first_name: firstName,
+      last_name: lastName,
+      phone_number: phoneNumber,
+      address,
+      city,
+      state,
+      zip_code: zipCode,
+      role,
+    };
+  
+    if (role === 'owner') {
+      userData.emergency_contact_number = emergencyPhoneNumber;
+    } else if (role === 'sitter') {
+      userData.services = services;
+      userData.bio = bio;
+    }
     
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData),
+    }).then((r) => {
+      if (r.ok) {
+        navigate('/')
+        r.json().then((user) => console.log(user));
+      } else {
+        r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
+      }
+    });
   }
 
   return (
@@ -61,8 +136,12 @@ function Signup() {
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Enter email"
             required
-          />
-        </Form.Group>
+            isInvalid={!validateEmail(email)}
+        />
+        <Form.Control.Feedback type="invalid">
+          Please enter a valid email address.
+        </Form.Control.Feedback>
+      </Form.Group>
 
         <Form.Group controlId="formPassword">
           <Form.Label className="mt-2">Password</Form.Label>
@@ -83,7 +162,11 @@ function Signup() {
             onChange={(event) => setPasswordConfirmation(event.target.value)}
             placeholder="Confirm password"
             required
+            isInvalid={!validatePasswordMatch(email)}
           />
+          <Form.Control.Feedback type="invalid">
+            "Passwords don't match"
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group controlId="formFirstName">
@@ -116,7 +199,11 @@ function Signup() {
             onChange={(event) => setPhoneNumber(event.target.value)}
             placeholder="Enter phone number"
             required
+            isInvalid={!validatePhoneNumber(phoneNumber)}
           />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid 10-digit phone number.
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group controlId="formAddress">
@@ -160,7 +247,11 @@ function Signup() {
             onChange={(event) => setZipCode(event.target.value)}
             placeholder="Enter zip code"
             required
+            isInvalid={!validateZipCode(zipCode)}
           />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid 5-digit zip code.
+          </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group controlId="formRole">
@@ -171,7 +262,9 @@ function Signup() {
             onChange={(event) => {
             setRole(event.target.value);
             setServices([]);
-            }}>
+            }}
+            required
+            >
             <option value="">Select a role</option>
             <option value="sitter">Sitter</option>
             <option value="owner">Owner</option>
@@ -189,7 +282,11 @@ function Signup() {
             placeholder="Enter emergency phone number"
             required={role === "owner"}
             disabled={role !== "owner"}
+            isInvalid={!validateEmergencyPhoneNumber(phoneNumber)}
           />
+          <Form.Control.Feedback type="invalid">
+            Please enter a valid 10-digit phone number.
+          </Form.Control.Feedback>
           </Form.Group>
         </>
         )}
@@ -222,7 +319,7 @@ function Signup() {
               <tbody>
                 {services.map((service, index) => (
                 <tr key={index}>
-                  <td>{service.service}</td>
+                  <td>{service.description}</td>
                   <td>{service.rate}</td>
                   <td>
                     <Button variant="danger" onClick={() => handleRemoveService(index)}>Remove</Button>
@@ -245,8 +342,8 @@ function Signup() {
                   </td>
                   <td>
                     <Form.Label className="mt-2">
-                      Rate:
-                      <input className="form-control" type="number" value={rate} onChange={(event) => setRate(event.target.value)} />
+                      Rate ($USD):
+                      <input className="form-control" type="number" value={rate} onChange={(event) => setRate(event.target.value)} placeholder="$USD"/>
                     </Form.Label>
                   </td>
                   <td>
