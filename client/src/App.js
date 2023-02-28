@@ -11,7 +11,6 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     fetch("/me").then((r) => {
       if (r.ok) {
         r.json().then((user) => {
@@ -29,7 +28,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className="home-page">
-      <Topbar user={user}/>
+      <Topbar user={user} setUser={setUser}/>
       {
         user ?
           (<Routes>

@@ -2,7 +2,15 @@ import React from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 
-function Topbar({user}) {
+function Topbar({user, setUser}) {
+
+  function handleLogoutClick() {
+    fetch("/logout", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setUser(null);
+      }
+    });
+  }
 
 return (
   <div class="row">
@@ -11,7 +19,14 @@ return (
         user ?
         (
           <>
-            <h1>{user.first_name}</h1>
+            <div className="col-6">
+              <h1>{user.first_name}</h1>
+            </div>
+            <div className="col-6">
+              <Nav className="justify-content-end">
+                <Link className="navbar-link" to="/" onClick={handleLogoutClick}>Logout</Link>
+              </Nav>
+            </div>
           </>
         )
         :
