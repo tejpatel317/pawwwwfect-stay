@@ -1,8 +1,9 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap'
+import { NavLink, Link, useLocation } from 'react-router-dom'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 function Topbar({user, setUser}) {
+  const location = useLocation();
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
@@ -13,21 +14,23 @@ function Topbar({user, setUser}) {
   }
 
 return (
-  <div class="row">
-    <Navbar className="bg-cf7cf5" variant="light">
+  <div className="row">
+    <Navbar className="px-4">
       {
         user ?
         (
-          <>
+          <Container>
             <div className="col-6">
-              <h1>{user.first_name}</h1>
+              <h3>{user.first_name}</h3>
             </div>
             <div className="col-6">
               <Nav className="justify-content-end">
-                <Link className="navbar-link" to="/" onClick={handleLogoutClick}>Logout</Link>
+                <Link to="/">
+                  <button className="btn btn-lg btn-dark" onClick={handleLogoutClick}>Logout</button>
+                </Link>
               </Nav>
             </div>
-          </>
+          </Container>
         )
         :
         (
@@ -40,8 +43,12 @@ return (
             </div>
             <div className="col-6">
               <Nav className="justify-content-end">
-                <NavLink to="/Login" className="navbar-link">Login</NavLink>
-                <NavLink to="/Signup" className="navbar-link">Signup</NavLink>
+                <NavLink to="/Login" className={`navbar-link ${location.pathname === "/Login" ? "active-topbar" : ""}`}>
+                  Login
+                </NavLink>
+                <NavLink to="/Signup" className={`navbar-link ${location.pathname === "/Signup" ? "active-topbar" : ""}`}>
+                  Signup
+                </NavLink>
               </Nav>
             </div>
           </>

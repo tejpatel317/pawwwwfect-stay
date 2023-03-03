@@ -59,7 +59,7 @@ function Login({setUser}) {
             />
           </Form.Group>
           <Button variant="dark" className="mt-3" type="submit">
-            Sign Up
+            Login
           </Button>
           <div className="text-center mt-3">Don't have an account? <Link to="/Signup">Sign Up</Link></div>
         </Form>

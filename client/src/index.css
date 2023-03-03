@@ -10,11 +10,6 @@ body {
   width: 100%;
 }
 
-.active {
-  border-radius: 5px;
-  color: white;
-}
-
 .navbar-link {
   color: #f2f2f2;
   text-align: center;
@@ -31,7 +26,7 @@ body {
   border-radius: 40px;
 }
 
-.active {
+.active-topbar {
   background-color: black;
   border-radius: 40px;
   color: white;
@@ -98,3 +93,33 @@ body {
   font-weight: 600;
 }
 
+.header {
+  background-color: #cf7cf5;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.iconlist {
+  display: flex;
+  gap: 40px;
+}
+
+.iconitem{
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.active-icon {
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.iconitem:hover {
+  text-decoration: none !important;
+  color: black !important;
+}
