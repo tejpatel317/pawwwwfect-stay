@@ -1,5 +1,6 @@
 class Pet < ApplicationRecord
     belongs_to :owner
+    has_many :bookings
     
     validates :name, presence: true
     validates :species, presence: true
