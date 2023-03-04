@@ -16,6 +16,7 @@ function Signup({setUser}) {
   const [role, setRole] = useState('');
   const [emergencyPhoneNumber, setEmergencyPhoneNumber] = useState('');
   const [bio, setBio] = useState('');
+  const [image, setImage] = useState('');
   const [selectedService, setSelectedService] = useState('');
   const [rate, setRate] = useState('');
   const [services, setServices] = useState([]);
@@ -103,6 +104,7 @@ function Signup({setUser}) {
     } else if (role === 'sitter') {
       userData.services = services;
       userData.bio = bio;
+      userData.image = image;
     }
     
     fetch('/signup', {
@@ -301,6 +303,18 @@ function Signup({setUser}) {
               value={bio}
               onChange={(event) => setBio(event.target.value)}
               placeholder="Tell us about yourself"
+              required={role === "sitter"}
+              disabled={role !== "sitter"}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formImage">
+            <Form.Label className="mt-2">Image</Form.Label>
+            <Form.Control
+              type="text"
+              value={image}
+              onChange={(event) => setImage(event.target.value)}
+              placeholder="Enter image URL"
               required={role === "sitter"}
               disabled={role !== "sitter"}
             />

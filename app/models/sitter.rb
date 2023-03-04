@@ -6,4 +6,5 @@ class Sitter < ApplicationRecord
     has_many :pets, through: :bookings
   
     validates :bio, presence: true, length: { maximum: 1000 }
+    validates :image, presence: true
 end

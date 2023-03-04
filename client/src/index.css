@@ -123,3 +123,16 @@ body {
   text-decoration: none !important;
   color: black !important;
 }
+
+.search-form {
+  background-color: #e9bdfd;
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 250px;
+  max-height: 440px;
+}
+
+.search-label {
+  font-weight: bold;
+  padding-top: 0.1rem;
+}

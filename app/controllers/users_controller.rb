@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       end
       
     def sitter_params
-        params.permit(:bio)
+        params.permit(:bio, :image)
     end
 
     def service_params
