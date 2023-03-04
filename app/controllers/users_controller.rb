@@ -19,6 +19,10 @@ class UsersController < ApplicationController
         end
     end
 
+    def index
+        render json: User.all, include: ['owner.pets' , 'sitter.services']
+    end
+
     def show
         user = User.find_by(id: session[:user_id])
         render json: user, include: ['owner.pets' , 'sitter.services']

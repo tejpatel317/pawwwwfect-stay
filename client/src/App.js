@@ -13,19 +13,31 @@ import OwnerAccount from './OwnerAccount';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false);
   const [showPetForm, setPetShowForm] = useState(true);
 
   useEffect(() => {
+    setLoading(true)
     fetch("/me").then((r) => {
       if (r.ok) {
         r.json().then((user) => {
           setUser(user)
-          setLoading(false)
         });
       }
     });
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("/users")
+      .then((r) => r.json())
+      .then((users) => {
+        setUsers(users)
+        setLoading(false)});
+  }, []);
+
+  console.log(users)
 
   function updateUser(updatedUser) {
     setUser(updatedUser)
@@ -47,7 +59,7 @@ function App() {
           <>
           <OwnerHeader showPetForm={showPetForm} setPetShowForm={setPetShowForm}/>
             <Routes>
-              <Route path="/Owner/Home" element={<OwnerHome/>}/>
+              <Route path="/Owner/Home" element={<OwnerHome users={users}/>}/>
               <Route path="/Owner/Bookings" element={<OwnerBooking/>}/>
               <Route path="/Owner/Pets" element={<OwnerPets showPetForm={showPetForm} user={user} updateUser={updateUser}/>}/>
               <Route path="/Owner/Messages" element={<OwnerMessages/>}/>

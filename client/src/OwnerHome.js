@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Form, Button, ListGroup, Image, Row, Col} from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import SittersList from './SittersList';
 
-function OwnerHome() {
+function OwnerHome({users}) {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [startDate, setStartDate] = useState(null);
@@ -96,140 +97,7 @@ function OwnerHome() {
           </Form>
         </div>
         <div className="col-md-8 pt-4 px-5">
-          <ListGroup>
-            <ListGroup.Item>
-              <Row>
-                <Col xs={4}>
-                  <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Image src="https://sites.psu.edu/iabcpennstate/wp-content/uploads/sites/18140/2015/01/professional-woman-4.jpg" alt="Avatar" style={{ height: "100%", maxWidth: "100%" }} />
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={{fontWeight: "bold", fontSize: "1.2em"}}>John Doe</div>
-                    <div style={{fontSize: "1.2em"}}>New York City</div>
-                    <div style={{fontSize: "1.2em"}}>New York</div>
-                    <div style={{fontSize: "1.2em"}}>07024</div>
-                    <p className="mt-3">To book an appointment with this pet sitter, click on"Book Now" and fill out the form.</p>
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="d-flex justify-content-between mt-2">
-                    <div>
-                      <h4 className="mb-3">Service and Rates</h4>
-                      <ul className="list-unstyled">
-                        <li>Pet Boarding - $20</li>
-                        <li>Pet Sitting - $10</li>
-                        <li>Pet Activity - $5</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end align-items-center flex-column mt-2">
-                    <button className="btn btn-dark w-100">Book Now</button>
-                  </div>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col xs={4}>
-                  <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Image src="https://sites.psu.edu/iabcpennstate/wp-content/uploads/sites/18140/2015/01/professional-woman-4.jpg" alt="Avatar" style={{ height: "100%", maxWidth: "100%" }} />
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={{fontWeight: "bold", fontSize: "1.2em"}}>John Doe</div>
-                    <div style={{fontSize: "1.2em"}}>New York City</div>
-                    <div style={{fontSize: "1.2em"}}>New York</div>
-                    <div style={{fontSize: "1.2em"}}>07024</div>
-                    <p className="mt-3">To book an appointment with this pet sitter, click on"Book Now" and fill out the form.</p>
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="d-flex justify-content-between mt-2">
-                    <div>
-                      <h4 className="mb-3">Service and Rates</h4>
-                      <ul className="list-unstyled">
-                        <li>Pet Boarding - $20</li>
-                        <li>Pet Sitting - $10</li>
-                        <li>Pet Activity - $5</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end align-items-center flex-column mt-2">
-                    <button className="btn btn-dark w-100">Book Now</button>
-                  </div>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col xs={4}>
-                  <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Image src="https://sites.psu.edu/iabcpennstate/wp-content/uploads/sites/18140/2015/01/professional-woman-4.jpg" alt="Avatar" style={{ height: "100%", maxWidth: "100%" }} />
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={{fontWeight: "bold", fontSize: "1.2em"}}>John Doe</div>
-                    <div style={{fontSize: "1.2em"}}>New York City</div>
-                    <div style={{fontSize: "1.2em"}}>New York</div>
-                    <div style={{fontSize: "1.2em"}}>07024</div>
-                    <p className="mt-3">To book an appointment with this pet sitter, click on"Book Now" and fill out the form.</p>
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="d-flex justify-content-between mt-2">
-                    <div>
-                      <h4 className="mb-3">Service and Rates</h4>
-                      <ul className="list-unstyled">
-                        <li>Pet Boarding - $20</li>
-                        <li>Pet Sitting - $10</li>
-                        <li>Pet Activity - $5</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end align-items-center flex-column mt-2">
-                    <button className="btn btn-dark w-100">Book Now</button>
-                  </div>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Row>
-                <Col xs={4}>
-                  <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Image src="https://sites.psu.edu/iabcpennstate/wp-content/uploads/sites/18140/2015/01/professional-woman-4.jpg" alt="Avatar" style={{ height: "100%", maxWidth: "100%" }} />
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={{fontWeight: "bold", fontSize: "1.2em"}}>John Doe</div>
-                    <div style={{fontSize: "1.2em"}}>New York City</div>
-                    <div style={{fontSize: "1.2em"}}>New York</div>
-                    <div style={{fontSize: "1.2em"}}>07024</div>
-                    <p className="mt-3">To book an appointment with this pet sitter, click on"Book Now" and fill out the form.</p>
-                  </div>
-                </Col>
-                <Col xs={4}>
-                  <div className="d-flex justify-content-between mt-2">
-                    <div>
-                      <h4 className="mb-3">Service and Rates</h4>
-                      <ul className="list-unstyled">
-                        <li>Pet Boarding - $20</li>
-                        <li>Pet Sitting - $10</li>
-                        <li>Pet Activity - $5</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end align-items-center flex-column mt-2">
-                    <button className="btn btn-dark w-100">Book Now</button>
-                  </div>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-          </ListGroup>
+          <SittersList users={users}/>
         </div>
       </div>
     </div>
