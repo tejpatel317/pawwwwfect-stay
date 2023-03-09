@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SittersList from './SittersList';
 
-function OwnerHome({users}) {
+function OwnerHome({users, user}) {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [startDate, setStartDate] = useState(null);
@@ -97,7 +97,7 @@ function OwnerHome({users}) {
           </Form>
         </div>
         <div className="col-md-8 pt-4 px-5">
-          <SittersList users={users}/>
+          <SittersList users={users} user={user}/>
         </div>
       </div>
     </div>

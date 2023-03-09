@@ -59,7 +59,7 @@ function App() {
           <>
           <OwnerHeader showPetForm={showPetForm} setPetShowForm={setPetShowForm}/>
             <Routes>
-              <Route path="/Owner/Home" element={<OwnerHome users={users}/>}/>
+              <Route path="/Owner/Home" element={<OwnerHome users={users} user={user}/>}/>
               <Route path="/Owner/Bookings" element={<OwnerBooking/>}/>
               <Route path="/Owner/Pets" element={<OwnerPets showPetForm={showPetForm} user={user} updateUser={updateUser}/>}/>
               <Route path="/Owner/Messages" element={<OwnerMessages/>}/>
