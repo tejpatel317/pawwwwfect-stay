@@ -3,7 +3,7 @@ class Booking < ApplicationRecord
     has_many :pets
 
 
-    validates :pet, :sitter, :start_date, :end_date, :price, presence: true
+    validates :start_date, :end_date, :price, presence: true
     validates :status, inclusion: { in: [true, false] }
     validate :end_date_is_after_start_date
 

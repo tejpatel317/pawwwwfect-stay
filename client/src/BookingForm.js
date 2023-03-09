@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -10,7 +10,7 @@ function BookingForm({user, usersitter}) {
   const [selectedPets, setSelectedPets] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  console.log(startDate, endDate)
+  console.log(selectedPets)
 
   useEffect(() => {
     if (service !== 'Pet Boarding' && startDate) {
@@ -23,7 +23,7 @@ function BookingForm({user, usersitter}) {
       const serviceObj = usersitter.sitter.services.find((s) => s.description === service);
       if (serviceObj) {
         const rate = serviceObj.rate;
-        const numDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+        const numDays = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
         const numPets = selectedPets.length;
         setTotalPrice(Number(rate * numDays * numPets).toFixed(2))
       }
@@ -35,25 +35,28 @@ function BookingForm({user, usersitter}) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("/pets", {
+    fetch("/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-
+        pet_ids: selectedPets,
+        sitter_id: usersitter.sitter.id,
+        start_date: startDate,
+        end_date: endDate,
+        price: totalPrice,
+        status: false,
       }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((updatedUser) => console.log(updatedUser));
+        r.json().then((Bookings) => console.log(Bookings));
       } else {
-      // handle form submission errors
+        r.json().then((error) => console.log(error))
       }
     });
   }
 
-  console.log(user)
-  console.log(usersitter)
 
   return (
   <div className="border border-dark p-3">
@@ -104,6 +107,7 @@ function BookingForm({user, usersitter}) {
               endDate={startDate}
               placeholderText="End Date"
               className="form-control"
+              disabled 
             />
           )}
         </div>
