@@ -55,7 +55,7 @@ function BookingForm({usersitter}) {
       }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((newBooking) => updateBookings(newBooking));
+        r.json().then((newBooking) => updateBookings(newBooking, usersitter.sitter.id));
         navigate('/Owner/Bookings');
       } else {
         r.json().then((error) => console.log(error))

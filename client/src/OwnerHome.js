@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import SittersList from './SittersList';
+import { UsersContext } from './App';
 
 function OwnerHome() {
   const [city, setCity] = useState('');
@@ -11,11 +12,52 @@ function OwnerHome() {
   const [endDate, setEndDate] = useState(null);
   const [service, setService] = useState('Pet Boarding');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission
+  const {users} = useContext(UsersContext)
+
+  useEffect(() => {
+    if (service !== 'Pet Boarding' && startDate) {
+      setEndDate(startDate)
+    }
+  }, [service, startDate])
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const filteredUsers = users.filter(((usersitter) => usersitter.sitter)).filter((user) => {
+      if (service && !user.sitter.services.some((s) => s.description === service)) {
+        return false;
+      }
+      if (city && user.city.toLowerCase() !== city.toLowerCase()) {
+        return false;
+      }
+      if (state && user.state.toLowerCase() !== state.toLowerCase()) {
+        return false;
+      }
+      if (startDate && endDate) {
+        const startDateObj = new Date(startDate);
+        const endDateObj = new Date(endDate);
+        for (const booking of user.sitter.bookings) {
+          const bookingStartDate = new Date(booking.start_date);
+          const bookingEndDate = new Date(booking.end_date);
+          if (
+            (bookingStartDate <= startDateObj && startDateObj <= bookingEndDate) ||
+            (bookingStartDate <= endDateObj && endDateObj <= bookingEndDate) ||
+            (startDateObj <= bookingStartDate && bookingEndDate <= endDateObj)
+          ) {
+            return false;
+          }
+        }
+        return true;
+      }
+      return true;})
+    setFilteredUsers(filteredUsers)
   };
 
+  const [filteredUsers, setFilteredUsers] = useState(users);
+
+  
+  console.log(filteredUsers)
+  
   return (
     <div className="container">
       <div className="row pt-5">
@@ -41,7 +83,6 @@ function OwnerHome() {
                 value={city}
                 onChange={(event) => setCity(event.target.value)}
                 placeholder="Enter city"
-                required
               />
             </Form.Group>
             <Form.Group controlId="state">
@@ -51,11 +92,10 @@ function OwnerHome() {
                 value={state}
                 onChange={(event) => setState(event.target.value)}
                 placeholder="Enter state"
-                required
               />
             </Form.Group>
             <Form.Group controlId="dates">
-              <Form.Label className="search-label">Dates</Form.Label>
+              <Form.Label>Dates</Form.Label>
               <div className="d-flex">
                 <DatePicker
                   selected={startDate}
@@ -87,6 +127,7 @@ function OwnerHome() {
                     endDate={startDate}
                     placeholderText="End Date"
                     className="form-control"
+                    disabled 
                   />
                 )}
               </div>
@@ -97,7 +138,7 @@ function OwnerHome() {
           </Form>
         </div>
         <div className="col-md-8 pt-4 px-5">
-          <SittersList/>
+          <SittersList filteredUsers={filteredUsers}/>
         </div>
       </div>
     </div>

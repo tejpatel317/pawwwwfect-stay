@@ -19,8 +19,6 @@ function OwnerBookingCard({ booking }) {
   } = booking;
 
   const usersitter = users.filter(user => user.sitter).find(user => user.sitter.id === sitterID);
-  console.log(users)
-  console.log(usersitter)
 
   const pet = pets.find(pets => pets.id === petID);
   const statusText = status ? 'Accept' : 'Pending';

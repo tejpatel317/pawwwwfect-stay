@@ -20,42 +20,38 @@ function App() {
   const [pets, setPets] = useState([])
   const [bookings, setBookings] = useState([])
   const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showPetForm, setPetShowForm] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const response = await fetch("/me");
       if (response.ok) {
         const user = await response.json();
         setUser(user);
-  
+
         Promise.all([
           fetch(`/pets`),
           fetch(`/bookings`),
           fetch(`/users`)
         ]).then(([petsResponse, bookingsResponse, usersResponse]) => {
-          if (petsResponse.ok) {
-            petsResponse.json().then((pets) => {
+          Promise.all([petsResponse.json(), bookingsResponse.json(), usersResponse.json()])
+            .then(([pets, bookings, users]) => {
               setPets(pets);
-            });
-          }
-          if (bookingsResponse.ok) {
-            bookingsResponse.json().then((bookings) => {
               setBookings(bookings);
-            });
-          }
-          if (usersResponse.ok) {
-            usersResponse.json().then((users) => {
               setUsers(users);
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.log(error);
+              setLoading(false);
             });
-          }
-          setLoading(false);
         });
+      } else {
+        setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -64,18 +60,23 @@ function App() {
     setPetShowForm(!showPetForm)
   }
 
-  function updateBookings(newBooking) {
+  function updateBookings(newBooking, sitterID) {
     setBookings([...bookings, ...newBooking])
+    const newUsers = users.map((user) => {
+      if (user.sitter?.id === sitterID) {
+        const newSitter = { ...user.sitter };
+        newSitter.bookings = [...newSitter.bookings, ...newBooking];
+        return { ...user, sitter: newSitter };
+      }
+      return user;
+    });
+    setUsers(newUsers);
   }
 
   if (loading) {
     return <div className="home-page"></div>;
   }
 
-  console.log(user)
-  console.log(pets)
-  console.log(users)
-  console.log(bookings)
 
   return (
     <BrowserRouter>
