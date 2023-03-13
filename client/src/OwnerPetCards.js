@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {Container, Row, Col} from 'react-bootstrap'
 import PetCard from './PetCard'
+import { PetContext } from './App';
 
-function OwnerPetCards({user}) {
+function OwnerPetCards() {
+  const {pets} = useContext(PetContext)
 
-  const ownerPetCards = user.owner.pets.map((pet) => {
+  const ownerPetCards = (pets.map((pet) => {
     return (<Col key={pet.id} className="col-md-4 p-3"><PetCard pet={pet}/></Col>)
-  })
-
+  }))
 
   return (
     <Container className="p-0">

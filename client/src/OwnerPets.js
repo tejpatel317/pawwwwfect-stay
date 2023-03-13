@@ -3,11 +3,11 @@ import PetForm from './PetForm'
 import OwnerPetCards from './OwnerPetCards'
 
 
-function OwnerPets({showPetForm, user, updateUser}) {
+function OwnerPets({showPetForm}) {
 
   return (
     <div>
-      {showPetForm ? <PetForm updateUser={updateUser}/> : <OwnerPetCards user={user}/>}
+      {showPetForm ? <PetForm/> : <OwnerPetCards/>}
     </div>
 )}
 

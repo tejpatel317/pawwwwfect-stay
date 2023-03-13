@@ -23,10 +23,6 @@ function OwnerHeader({showPetForm, setPetShowForm}) {
                 <FontAwesomeIcon icon={faDog}/>
                 <span>Pets</span>
               </NavLink>
-              <NavLink to="/Owner/Messages" className={`iconitem ${location.pathname === "/Owner/Messages" ? "active-icon" : ""}`}>
-                <FontAwesomeIcon icon={faMessage}/>
-                <span>Messages</span>
-              </NavLink>
               <NavLink to="/Owner/Account" className={`iconitem ${location.pathname === "/Owner/Account" ? "active-icon" : ""}`}>
                 <FontAwesomeIcon icon={faUser}/>
                 <span>Account</span>

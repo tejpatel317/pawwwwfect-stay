@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2023_03_03_221703) do
     t.date "start_date"
     t.date "end_date"
     t.float "price"
+    t.string "service_type"
     t.boolean "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

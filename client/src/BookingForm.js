@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { PetContext } from './App'; 
+import { BookingContext } from './App';
+import { useNavigate } from 'react-router-dom';
 
-function BookingForm({user, usersitter}) {
+function BookingForm({usersitter}) {
+  const {pets} = useContext(PetContext)
+  const {updateBookings} = useContext(BookingContext)
   const [service, setService] = useState(usersitter.sitter.services[0].description)
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selectedPets, setSelectedPets] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  console.log(selectedPets)
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (service !== 'Pet Boarding' && startDate) {
@@ -46,11 +50,13 @@ function BookingForm({user, usersitter}) {
         start_date: startDate,
         end_date: endDate,
         price: totalPrice,
+        service_type: service,
         status: false,
       }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((Bookings) => console.log(Bookings));
+        r.json().then((newBooking) => updateBookings(newBooking));
+        navigate('/Owner/Bookings');
       } else {
         r.json().then((error) => console.log(error))
       }
@@ -114,7 +120,7 @@ function BookingForm({user, usersitter}) {
       </Form.Group>
       <Form.Group controlId="formPets">
         <Form.Label>Select pet(s)</Form.Label>
-          {user.owner.pets.map((pet) => (
+          {pets.map((pet) => (
             <Col xs={12} md={6} key={pet.id}>
               <Form.Check
                 type="checkbox"

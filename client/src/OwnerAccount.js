@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Form } from 'react-bootstrap';
+import { UserContext } from './App'; 
 
 
-function OwnerAccount({user}) {
+function OwnerAccount() {
+
+  const {user} = useContext(UserContext)
 
   const {
     email,

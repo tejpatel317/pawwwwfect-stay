@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { PetContext } from './App';
 
-function PetForm({updateUser}) {
+function PetForm() {
+  const {updatePets} = useContext(PetContext)
+
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [breed, setBreed] = useState('');
@@ -28,7 +31,7 @@ function PetForm({updateUser}) {
       }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((updatedUser) => updateUser(updatedUser));
+        r.json().then((newPet) => updatePets(newPet));
       } else {
       // handle form submission errors
       }

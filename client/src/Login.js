@@ -22,7 +22,7 @@ function Login({setUser}) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((user) => setUser(user));
-        navigate('/')
+        navigate('/Owner/Home')
       } else {
         r.json().then((err) => console.log(err.errors)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
       }

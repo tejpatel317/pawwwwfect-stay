@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { ListGroup, Image, Row, Col, Modal, Button} from 'react-bootstrap';
 import BookingForm from './BookingForm';
+import { PetContext } from './App';
 
-function SitterListItem({usersitter, user}) {
+function SitterListItem({usersitter}) {
 
   const {
     first_name: firstName,
@@ -13,6 +14,8 @@ function SitterListItem({usersitter, user}) {
     sitter} = usersitter;
 
     const [showModal, setShowModal] = useState(false);
+
+    const {pets} = useContext(PetContext)
 
     const handleBookNow = () => {
       setShowModal(true);
@@ -53,8 +56,8 @@ function SitterListItem({usersitter, user}) {
             </div>
           </div>
           <div className="d-flex justify-content-end align-items-center flex-column mt-2">
-            <button className="btn btn-dark w-100" onClick={handleBookNow} disabled={user.owner.pets.length === 0}>
-              {user.owner.pets.length === 0 ? "Add Pet to Book" : "BookNow"}
+            <button className="btn btn-dark w-100" onClick={handleBookNow} disabled={pets.length === 0}>
+              {pets.length === 0 ? "Add Pet to Book" : "BookNow"}
             </button>
           </div>
         </Col>
@@ -86,7 +89,7 @@ function SitterListItem({usersitter, user}) {
             </ul>
           </div>
         </div>
-      <BookingForm user={user} usersitter={usersitter}/>
+      <BookingForm usersitter={usersitter}/>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseModal}>

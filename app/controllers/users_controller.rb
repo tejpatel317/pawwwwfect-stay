@@ -15,17 +15,17 @@ class UsersController < ApplicationController
             elsif role == "owner"
                 owner = Owner.create!(owner_params.merge(user_id: user.id))
             end
-            render json: user, include: ['owner.pets' , 'sitter.services'], status: :created
+            render json: user, include: ['sitter.services', 'owner'], status: :created
         end
     end
 
     def index
-        render json: User.all, include: ['owner.pets' , 'sitter.services']
+        render json: User.all, include: ['sitter.services', 'sitter.bookings', 'owner']
     end
 
     def show
         user = User.find_by(id: session[:user_id])
-        render json: user, include: ['owner.pets' , 'sitter.services']
+        render json: user, include: ['sitter.services', 'owner']
     end
 
 
