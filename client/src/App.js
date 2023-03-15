@@ -73,7 +73,6 @@ function App() {
           ]);
         })
         .then(([pets, bookings, users]) => {
-          console.log(bookings)
           setPets(pets);
           setBookings(bookings);
           setUsers(users);
@@ -94,12 +93,26 @@ function App() {
     setPetShowForm(!showPetForm)
   }
 
-  function updateBookings(newBooking, sitterID) {
+  function addBooking(newBooking, sitterID) {
     setBookings([...bookings, newBooking])
     const newUsers = users.map((user) => {
       if (user.sitter?.id === sitterID) {
         const newSitter = { ...user.sitter };
         newSitter.bookings = [...newSitter.bookings, newBooking];
+        return { ...user, sitter: newSitter };
+      }
+      return user;
+    });
+    setUsers(newUsers);
+  }
+
+  function deleteBooking(id, sitterID) {
+    const newBookings = bookings.filter((booking) => booking.id !== id)
+    setBookings(newBookings)
+    const newUsers = users.map((user) => {
+      if (user.sitter?.id === sitterID) {
+        const newSitter = { ...user.sitter };
+        newSitter.bookings = newSitter.bookings.filter((booking) => booking.id !== id);
         return { ...user, sitter: newSitter };
       }
       return user;
@@ -119,7 +132,7 @@ function App() {
     <BrowserRouter>
       <PetContext.Provider value={{pets, updatePets}}>
       <UserContext.Provider value={{user}}>
-      <BookingContext.Provider value={{bookings, updateBookings}}>
+      <BookingContext.Provider value={{bookings, addBooking, deleteBooking}}>
       <UsersContext.Provider value={{users}}>
         <div className="home-page">
           <Topbar user={user} setUser={setUser}/>

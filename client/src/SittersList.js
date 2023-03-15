@@ -1,6 +1,5 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { ListGroup } from 'react-bootstrap';
-import { BookingContext } from './App';
 import SitterListItem from './SitterListItem';
 
 function SittersList({filteredUsers}) {

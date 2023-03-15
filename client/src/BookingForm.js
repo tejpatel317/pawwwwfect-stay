@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BookingForm({usersitter}) {
   const {pets} = useContext(PetContext)
-  const {updateBookings} = useContext(BookingContext)
+  const {addBooking} = useContext(BookingContext)
   const [service, setService] = useState(usersitter.sitter.services[0].description)
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -66,7 +66,7 @@ function BookingForm({usersitter}) {
       }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((newBooking) => updateBookings(newBooking, usersitter.sitter.id));
+        r.json().then((newBooking) => addBooking(newBooking, usersitter.sitter.id));
         navigate('/Owner/Bookings');
       } else {
         r.json().then((error) => console.log(error))
@@ -102,6 +102,7 @@ function BookingForm({usersitter}) {
             endDate={endDate}
             placeholderText="Start Date"
             className="form-control mr-2"
+            required
           />
           {service !== 'Pet Sitting' && service !== 'Pet Activity' && (
             <DatePicker
@@ -113,6 +114,7 @@ function BookingForm({usersitter}) {
               minDate={startDate}
               placeholderText="End Date"
               className="form-control"
+              required
             />
           )}
           {(service === 'Pet Sitting' || service === 'Pet Activity') && (
@@ -152,7 +154,7 @@ function BookingForm({usersitter}) {
       <div className="total-price">
         <h3>Total Price: ${totalPrice}</h3>
       </div>
-      <Button type="submit" variant="dark" className="mt-3 w-100">
+      <Button type="submit" variant="dark" className="mt-3 w-100" disabled={selectedPets.length === 0}>
         Book Service
       </Button>
     </Form>

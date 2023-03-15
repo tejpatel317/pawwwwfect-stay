@@ -6,18 +6,19 @@ import { BookingContext } from './App';
 function OwnerBooking() {
   const {bookings} = useContext(BookingContext)
 
-  const expandedBookings = bookings.flatMap(booking => {
-    return booking.booking_pets.map(booking_pet => {
-      return {
-        ...booking,
-        bookingPets: booking_pet
-      };
-    });
+
+  const sortedExpandedBookings = bookings.sort((a, b) => {
+    const dateA = new Date(a.start_date);
+    const dateB = new Date(b.start_date);
+    return dateB - dateA; 
   });
 
-  const ownerBookingCards = (expandedBookings.map((booking) => {
+  console.log(sortedExpandedBookings)
+
+  const ownerBookingCards = (sortedExpandedBookings.map((booking) => {
     return (<OwnerBookingCard booking={booking} key={booking.id}/>)
   }))
+
 
   return (
     <Container className="mt-5 p-0">

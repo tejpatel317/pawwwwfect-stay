@@ -1,6 +1,6 @@
 class Booking < ApplicationRecord
     belongs_to :sitter
-    has_many :booking_pets
+    has_many :booking_pets, dependent: :destroy
     has_many :pets, through: :booking_pets
 
     validates :start_date, :end_date, :price, presence: true
