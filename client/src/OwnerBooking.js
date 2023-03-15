@@ -6,7 +6,16 @@ import { BookingContext } from './App';
 function OwnerBooking() {
   const {bookings} = useContext(BookingContext)
 
-  const ownerBookingCards = (bookings.map((booking) => {
+  const expandedBookings = bookings.flatMap(booking => {
+    return booking.booking_pets.map(booking_pet => {
+      return {
+        ...booking,
+        bookingPets: booking_pet
+      };
+    });
+  });
+
+  const ownerBookingCards = (expandedBookings.map((booking) => {
     return (<OwnerBookingCard booking={booking} key={booking.id}/>)
   }))
 

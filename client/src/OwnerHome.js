@@ -20,6 +20,7 @@ function OwnerHome() {
     }
   }, [service, startDate])
 
+  console.log(startDate)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,15 +35,17 @@ function OwnerHome() {
         return false;
       }
       if (startDate && endDate) {
-        const startDateObj = new Date(startDate);
-        const endDateObj = new Date(endDate);
+        const startDateISO = startDate.toISOString().substring(0, 10);
+        const endDateISO = endDate.toISOString().substring(0, 10);
         for (const booking of user.sitter.bookings) {
           const bookingStartDate = new Date(booking.start_date);
+          const bookingStartDateISO = bookingStartDate.toISOString().substring(0, 10);
           const bookingEndDate = new Date(booking.end_date);
+          const bookingEndDateISO = bookingEndDate.toISOString().substring(0, 10);
           if (
-            (bookingStartDate <= startDateObj && startDateObj <= bookingEndDate) ||
-            (bookingStartDate <= endDateObj && endDateObj <= bookingEndDate) ||
-            (startDateObj <= bookingStartDate && bookingEndDate <= endDateObj)
+            (bookingStartDateISO <= startDateISO && startDateISO <= bookingEndDateISO) ||
+            (bookingStartDateISO <= endDateISO && endDateISO <= bookingEndDateISO) ||
+            (startDateISO <= bookingStartDateISO && bookingEndDateISO <= endDateISO)
           ) {
             return false;
           }
@@ -55,9 +58,6 @@ function OwnerHome() {
 
   const [filteredUsers, setFilteredUsers] = useState(users);
 
-  
-  console.log(filteredUsers)
-  
   return (
     <div className="container">
       <div className="row pt-5">

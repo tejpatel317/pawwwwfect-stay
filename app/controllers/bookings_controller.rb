@@ -3,18 +3,18 @@ class BookingsController < ApplicationController
     def index
         user = User.find_by(id: session[:user_id])
         pets = user.owner.pets
-        bookings = pets.map { |pet| pet.bookings }.flatten
-        render json: bookings
+        unique_bookings = Set.new
+        pets.each { |pet| pet.bookings.each { |booking| unique_bookings.add(booking) } }
+        render json: unique_bookings.to_a
     end
 
     def create
-        bookings = []
+        booking = Booking.create!(booking_params.merge(status: false))
         pet_ids = params[:pet_ids] || []
         pet_ids.each do |pet_id|
-            booking = Booking.create!(booking_params.merge(pet_id: pet_id, status: false))
-            bookings << booking
+            BookingPet.create!(booking_id: booking.id, pet_id: pet_id)
         end
-        render json: bookings, status: :created
+        render json: booking, status: :created
     end
 
     private

@@ -36,8 +36,19 @@ function BookingForm({usersitter}) {
     }
   }, [service, startDate, endDate, selectedPets]);
 
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  
 
   function handleSubmit(e) {
+    e.preventDefault();
+    const localStartDate = formatDate(startDate);
+    const localEndDate = formatDate(endDate);
+
     e.preventDefault();
     fetch("/bookings", {
       method: "POST",
@@ -47,8 +58,8 @@ function BookingForm({usersitter}) {
       body: JSON.stringify({
         pet_ids: selectedPets,
         sitter_id: usersitter.sitter.id,
-        start_date: startDate,
-        end_date: endDate,
+        start_date: localStartDate,
+        end_date: localEndDate,
         price: totalPrice,
         service_type: service,
         status: false,

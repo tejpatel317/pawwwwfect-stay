@@ -8,22 +8,29 @@ function OwnerBookingCard({ booking }) {
   const {pets} = useContext(PetContext)
 
   const { 
-    id, 
-    pet_id: petID, 
+    id,
     sitter_id: sitterID, 
     start_date: startDate, 
     end_date: endDate,
     service_type: service,
+    bookingPets,
     price, 
     status 
   } = booking;
 
+  function parseLocalDateString(dateString) {
+    const [year, month, day] = dateString.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
   const usersitter = users.filter(user => user.sitter).find(user => user.sitter.id === sitterID);
 
-  const pet = pets.find(pets => pets.id === petID);
+  console.log(bookingPets)
+  const pet = pets.find(pet => pet.id === bookingPets.pet_id);
+  console.log(bookingPets.pet_id)
   const statusText = status ? 'Accept' : 'Pending';
-  const formattedStartDate = new Date(startDate).toLocaleDateString();
-  const formattedEndDate = new Date(endDate).toLocaleDateString();
+  const formattedStartDate = parseLocalDateString(startDate).toLocaleDateString();
+  const formattedEndDate = parseLocalDateString(endDate).toLocaleDateString();
   const formattedPhoneNumber = usersitter.phone_number.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3'); 
   const statusStyle = status ? 'table-success' : 'table-primary';
   const isEndDatePassed = new Date(endDate) < new Date()

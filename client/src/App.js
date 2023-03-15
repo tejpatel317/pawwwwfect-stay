@@ -22,38 +22,72 @@ function App() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true);
   const [showPetForm, setPetShowForm] = useState(true);
-
+  const [userFetchStatus, setUserFetchStatus] = useState("idle");
+  const [dataLoading, setDataLoading] = useState(true);
+  
   useEffect(() => {
-    const fetchData = async () => {
+    if (userFetchStatus === "completed") {
+      return;
+    }
+  
+    const fetchUser = async () => {
+      setLoading(true);
       const response = await fetch("/me");
+  
       if (response.ok) {
         const user = await response.json();
         setUser(user);
-
-        Promise.all([
-          fetch(`/pets`),
-          fetch(`/bookings`),
-          fetch(`/users`)
-        ]).then(([petsResponse, bookingsResponse, usersResponse]) => {
-          Promise.all([petsResponse.json(), bookingsResponse.json(), usersResponse.json()])
-            .then(([pets, bookings, users]) => {
-              setPets(pets);
-              setBookings(bookings);
-              setUsers(users);
-              setLoading(false);
-            })
-            .catch((error) => {
-              console.log(error);
-              setLoading(false);
-            });
-        });
       } else {
-        setLoading(false);
+        setUser(null);
       }
+  
+      setUserFetchStatus("completed");
+      setLoading(false);
     };
-
+  
+    fetchUser();
+  }, [userFetchStatus]);
+  
+  useEffect(() => {
+    if (!user) {
+      setPets([]);
+      setBookings([]);
+      setUsers([]);
+      setDataLoading(false);
+      return;
+    }
+  
+    const fetchData = async () => {
+      setDataLoading(true);
+  
+      Promise.all([
+        fetch(`/pets`),
+        fetch(`/bookings`),
+        fetch(`/users`),
+      ])
+        .then(([petsResponse, bookingsResponse, usersResponse]) => {
+          return Promise.all([
+            petsResponse.json(),
+            bookingsResponse.json(),
+            usersResponse.json(),
+          ]);
+        })
+        .then(([pets, bookings, users]) => {
+          console.log(bookings)
+          setPets(pets);
+          setBookings(bookings);
+          setUsers(users);
+        })
+        .catch((error) => {
+          console.log("HELLO");
+        })
+        .finally(() => {
+          setDataLoading(false);
+        });
+    };
+  
     fetchData();
-  }, []);
+  }, [user]);
 
   function updatePets(newPet) {
     setPets([...pets, newPet])
@@ -61,11 +95,11 @@ function App() {
   }
 
   function updateBookings(newBooking, sitterID) {
-    setBookings([...bookings, ...newBooking])
+    setBookings([...bookings, newBooking])
     const newUsers = users.map((user) => {
       if (user.sitter?.id === sitterID) {
         const newSitter = { ...user.sitter };
-        newSitter.bookings = [...newSitter.bookings, ...newBooking];
+        newSitter.bookings = [...newSitter.bookings, newBooking];
         return { ...user, sitter: newSitter };
       }
       return user;
@@ -73,10 +107,13 @@ function App() {
     setUsers(newUsers);
   }
 
-  if (loading) {
+  if (loading || dataLoading) {
     return <div className="home-page"></div>;
   }
 
+  console.log({bookings: bookings})
+  console.log({users: users})
+  console.log({pets: pets})
 
   return (
     <BrowserRouter>

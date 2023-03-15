@@ -1,3 +1,5 @@
 class BookingSerializer < ActiveModel::Serializer
-  attributes :id, :pet_id, :sitter_id, :start_date, :end_date, :price, :status, :service_type
+  attributes :id, :sitter_id, :start_date, :end_date, :price, :status, :service_type
+
+  has_many :booking_pets
 end
