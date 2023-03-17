@@ -25,6 +25,12 @@ class BookingsController < ApplicationController
         render json: booking, status: :created
     end
 
+    def update
+        booking = Booking.find(params[:id])
+        booking.update!(booking_update_params)
+        render json: booking, status: :ok
+    end
+
     def destroy
         booking = Booking.find(params[:id])
         booking.destroy
@@ -35,6 +41,10 @@ class BookingsController < ApplicationController
 
     def booking_params
         params.permit(:sitter_id, :start_date, :end_date, :price, :service_type)
+    end
+
+    def booking_update_params
+        params.permit(:id, :status)
     end
 
 end

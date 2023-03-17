@@ -124,7 +124,31 @@ function App() {
   }
 
   function updateBooking(updatedBooking) {
-    console.log(updatedBooking)
+    
+    const newBookings = bookings.map((booking) => {
+      if (booking.id === updatedBooking.id) {
+        return updatedBooking;
+      } else {
+        return booking;
+      }
+    });
+    setBookings(newBookings);
+
+    const newUsers = users.map((user) => {
+      if (user.sitter?.id === updatedBooking.sitter_id) {
+        const newSitter = { ...user.sitter };
+        newSitter.bookings = newSitter.bookings.map((booking) => {
+          if (booking.id === updatedBooking.id) {
+            return updatedBooking;
+          } else {
+            return booking;
+          }
+        });
+        return { ...user, sitter: newSitter };
+      }
+      return user;
+    });
+    setUsers(newUsers);
   }
 
   if (loading || dataLoading) {
@@ -140,7 +164,7 @@ function App() {
     <BrowserRouter>
       <PetContext.Provider value={{pets, updatePets}}>
       <UserContext.Provider value={{user}}>
-      <BookingContext.Provider value={{bookings, addBooking, deleteBooking}}>
+      <BookingContext.Provider value={{bookings, addBooking, deleteBooking, updateBooking}}>
       <UsersContext.Provider value={{users}}>
         <div className="home-page">
           <Topbar user={user} setUser={setUser}/>

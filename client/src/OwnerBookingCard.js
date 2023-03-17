@@ -46,7 +46,7 @@ function OwnerBookingCard({ booking }) {
       {index < bookedPets.length - 1 && <br />}
     </React.Fragment>
   ));
-  const statusText = status ? 'Accept' : 'Pending';
+  const statusText = status ? 'Accepted' : 'Pending';
   const formattedStartDate = parseLocalDateString(startDate).toLocaleDateString();
   const formattedEndDate = parseLocalDateString(endDate).toLocaleDateString();
   const formattedPhoneNumber = usersitter.phone_number.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3'); 

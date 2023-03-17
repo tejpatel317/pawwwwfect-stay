@@ -10,6 +10,9 @@ class Booking < ApplicationRecord
     private
 
     def sitter_availability
+
+        return unless new_record?
+
         bookings = Booking.where(sitter_id: sitter_id)
     
         bookings.each do |booking|
