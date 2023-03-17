@@ -8,7 +8,7 @@ import SitterBookingPets from './SitterBookingPets';
 function SitterBookingCard({ booking }) {
   const {users} = useContext(UsersContext)
   const {pets} = useContext(PetContext)
-  const { deleteBooking } = useContext(BookingContext);
+  const { deleteBooking, updateBooking } = useContext(BookingContext);
   const [showPetModal, setShowPetModal] = useState(false);
 
   const { 
@@ -40,6 +40,24 @@ function SitterBookingCard({ booking }) {
     });
   }
 
+  function handleBookingUpdate(){
+    fetch(`/bookings/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: true
+      }),
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((updatedBooking) => updateBooking(updatedBooking))
+      } else {
+        r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
+      }
+    });
+  }
+
   const bookedPets = bookingPets.map(bookingPet => pets.find(pet => pet.id === bookingPet.pet_id));
   const userowner = users.find(user => user.owner && user.owner.id === bookedPets[0].owner_id);
   const petNames = bookedPets.map((pet, index) => (
@@ -48,7 +66,7 @@ function SitterBookingCard({ booking }) {
       {index < bookedPets.length - 1 && <br />}
     </React.Fragment>
   ));
-  const statusText = status ? 'ACCEPTED' : <Button className="btn-dark">ACCEPT</Button>;
+  const statusText = status ? 'ACCEPTED' : <Button className="btn-dark" onClick={handleBookingUpdate}>ACCEPT</Button>;
   const formattedStartDate = parseLocalDateString(startDate).toLocaleDateString();
   const formattedEndDate = parseLocalDateString(endDate).toLocaleDateString();
   const formattedPhoneNumber = userowner.owner.emergency_contact_number.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3'); 

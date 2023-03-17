@@ -123,6 +123,10 @@ function App() {
     setUsers(newUsers);
   }
 
+  function updateBooking(updatedBooking) {
+    console.log(updatedBooking)
+  }
+
   if (loading || dataLoading) {
     return <div className="home-page"></div>;
   }
