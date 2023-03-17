@@ -1,13 +1,15 @@
-import React, {useContext} from 'react';
-import { Button } from 'react-bootstrap';
+import React, {useContext, useState} from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import { UsersContext } from './App';
 import { PetContext } from './App';
 import { BookingContext } from './App';
+import SitterBookingPets from './SitterBookingPets';
 
 function SitterBookingCard({ booking }) {
   const {users} = useContext(UsersContext)
   const {pets} = useContext(PetContext)
   const { deleteBooking } = useContext(BookingContext);
+  const [showPetModal, setShowPetModal] = useState(false);
 
   const { 
     id,
@@ -55,22 +57,27 @@ function SitterBookingCard({ booking }) {
   const dateStyle = isEndDatePassed ? 'table-dark' : '';
 
   return (
-    <tr className={`${dateStyle} ${statusStyle}`}>
-      <td className="table-text">{userowner.first_name} {userowner.last_name}</td>
-      <td className="table-text">{userowner.email}</td>
-      <td className="table-text">
-        <Button className="btn-success">VIEW PETS</Button>
-      </td>
-      <td className="table-text">{service}</td>
-      <td className="table-text">Start Date:<br />{formattedStartDate}<br />End Date:<br />{formattedEndDate}</td>
-      <td className="table-text">{userowner.address}<br /> {userowner.city} {userowner.state} {userowner.zip_code}</td>
-      <td className="table-text">{formattedPhoneNumber}</td>
-      <td className="table-text">${price.toFixed(2)}</td>
-      <td className="table-text">{statusText}</td>
-      <td>
-        <Button className="btn-secondary" onClick={handleDelete}>DELETE</Button>
-      </td>
-    </tr>
+    <>
+      <tr className={`${dateStyle} ${statusStyle}`}>
+        <td className="table-text">{userowner.first_name} {userowner.last_name}</td>
+        <td className="table-text">{userowner.email}</td>
+        <td className="table-text">
+          <Button className="btn-success" onClick={() => setShowPetModal(true)}>VIEW PETS</Button>
+          {showPetModal && (
+            <SitterBookingPets bookingPets={bookingPets} onHide={() => setShowPetModal(false)} />
+          )}
+        </td>
+        <td className="table-text">{service}</td>
+        <td className="table-text">Start Date:<br />{formattedStartDate}<br />End Date:<br />{formattedEndDate}</td>
+        <td className="table-text">{userowner.address}<br /> {userowner.city} {userowner.state} {userowner.zip_code}</td>
+        <td className="table-text">{formattedPhoneNumber}</td>
+        <td className="table-text">${price.toFixed(2)}</td>
+        <td className="table-text">{statusText}</td>
+        <td>
+          <Button className="btn-secondary" onClick={handleDelete}>DELETE</Button>
+        </td>
+      </tr>
+  </>
   );
 }
 
