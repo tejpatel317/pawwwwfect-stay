@@ -2,8 +2,15 @@ class PetsController < ApplicationController
 
     def index
         user = User.find_by(id: session[:user_id])
-        pets = user.owner.pets
-        render json: pets
+        
+        if user.owner
+            pets = user.owner.pets
+            render json: pets
+        elsif user.sitter
+            render json: user.sitter.pets
+        else
+            render json: []
+        end
     end
 
     def create

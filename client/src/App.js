@@ -9,6 +9,9 @@ import OwnerHome from './OwnerHome';
 import OwnerBooking from './OwnerBooking';
 import OwnerPets from './OwnerPets';
 import OwnerAccount from './OwnerAccount';
+import SitterHeader from './SitterHeader';
+import SitterAccount from './SitterAccount';
+import SitterBooking from './SitterBooking';
 
 export const PetContext = React.createContext();
 export const UserContext = React.createContext();
@@ -124,6 +127,7 @@ function App() {
     return <div className="home-page"></div>;
   }
 
+  console.log({user: user})
   console.log({bookings: bookings})
   console.log({users: users})
   console.log({pets: pets})
@@ -137,9 +141,17 @@ function App() {
         <div className="home-page">
           <Topbar user={user} setUser={setUser}/>
           {
-            user ?
+            user && user.sitter ?
               <>
-              <OwnerHeader showPetForm={showPetForm} setPetShowForm={setPetShowForm}/>
+                <SitterHeader/>
+                <Routes>
+                  <Route path="/Sitter/Bookings" element={<SitterBooking/>}/>
+                  <Route path="/Sitter/Account" element={<SitterAccount/>}/>
+                </Routes>
+              </>
+            : user && user.owner ?
+              <>
+                <OwnerHeader showPetForm={showPetForm} setPetShowForm={setPetShowForm}/>
                 <Routes>
                   <Route path="/Owner/Home" element={<OwnerHome/>}/>
                   <Route path="/Owner/Bookings" element={<OwnerBooking/>}/>
