@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { UsersContext } from './App';
 import { PetContext } from './App';
 import { BookingContext } from './App';
@@ -35,7 +35,11 @@ function SitterBookingCard({ booking }) {
         if (r.ok) {
           deleteBooking(id, sitterID)
         } else {
-          r.json().then((err) => console.log(err));
+          r.json().then((err) => {
+            const errorMessages = err.errors;
+            const errorMessage = errorMessages.join("\n");
+            alert(errorMessage);
+          }); 
         }
     });
   }
@@ -53,19 +57,17 @@ function SitterBookingCard({ booking }) {
       if (r.ok) {
         r.json().then((updatedBooking) => updateBooking(updatedBooking))
       } else {
-        r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
+        r.json().then((err) => {
+          const errorMessages = err.errors;
+          const errorMessage = errorMessages.join("\n");
+          alert(errorMessage);
+        }); 
       }
     });
   }
 
   const bookedPets = bookingPets.map(bookingPet => pets.find(pet => pet.id === bookingPet.pet_id));
   const userowner = users.find(user => user.owner && user.owner.id === bookedPets[0].owner_id);
-  const petNames = bookedPets.map((pet, index) => (
-    <React.Fragment key={index}>
-      {pet.name}
-      {index < bookedPets.length - 1 && <br />}
-    </React.Fragment>
-  ));
   const statusText = status ? 'ACCEPTED' : <Button className="btn-dark" onClick={handleBookingUpdate}>ACCEPT</Button>;
   const formattedStartDate = parseLocalDateString(startDate).toLocaleDateString();
   const formattedEndDate = parseLocalDateString(endDate).toLocaleDateString();

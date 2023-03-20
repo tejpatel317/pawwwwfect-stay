@@ -115,10 +115,20 @@ function Signup({setUser}) {
       body: JSON.stringify(userData),
     }).then((r) => {
       if (r.ok) {
-        navigate('/')
-        r.json().then((user) => setUser(user));
+        r.json().then((user) => {
+          setUser(user);
+          if (user.sitter) {
+            navigate('/Sitter/Account');
+          } else {
+            navigate('/Owner/Home');
+          }
+        });
       } else {
-        r.json().then((err) => console.log(err)); //FOR ERROR HANDLING LOGIC WILL BE ADDED LATER
+        r.json().then((err) =>{
+          const errorMessages = err.errors;
+          const errorMessage = errorMessages.join("\n");
+          alert(errorMessage);
+        }); 
       }
     });
   }

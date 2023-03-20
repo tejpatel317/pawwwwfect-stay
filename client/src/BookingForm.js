@@ -69,7 +69,11 @@ function BookingForm({usersitter}) {
         r.json().then((newBooking) => addBooking(newBooking, usersitter.sitter.id));
         navigate('/Owner/Bookings');
       } else {
-        r.json().then((error) => console.log(error))
+        r.json().then((err) => {
+          const errorMessages = err.errors;
+          const errorMessage = errorMessages.join("\n");
+          alert(errorMessage);
+        }); 
       }
     });
   }

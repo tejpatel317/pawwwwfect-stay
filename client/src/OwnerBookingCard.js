@@ -7,7 +7,7 @@ import { BookingContext } from './App';
 function OwnerBookingCard({ booking }) {
   const {users} = useContext(UsersContext)
   const {pets} = useContext(PetContext)
-  const { bookings, deleteBooking } = useContext(BookingContext);
+  const { deleteBooking } = useContext(BookingContext);
 
   const { 
     id,
@@ -33,7 +33,11 @@ function OwnerBookingCard({ booking }) {
         if (r.ok) {
           deleteBooking(id, sitterID)
         } else {
-          r.json().then((err) => console.log(err));
+          r.json().then((err) => {
+            const errorMessages = err.errors;
+            const errorMessage = errorMessages.join("\n");
+            alert(errorMessage);
+          }); 
         }
     });
   }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Modal, Button, Table, Image } from 'react-bootstrap';
 import { PetContext } from './App';
 

@@ -80,8 +80,10 @@ function App() {
           setBookings(bookings);
           setUsers(users);
         })
-        .catch((error) => {
-          console.log("HELLO");
+        .catch((err) => {
+          const errorMessages = err.errors;
+          const errorMessage = errorMessages.join("\n");
+          alert(errorMessage);
         })
         .finally(() => {
           setDataLoading(false);

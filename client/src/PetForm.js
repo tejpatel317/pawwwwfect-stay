@@ -33,7 +33,11 @@ function PetForm() {
       if (r.ok) {
         r.json().then((newPet) => updatePets(newPet));
       } else {
-      // handle form submission errors
+        r.json().then((err) => {
+          const errorMessages = err.errors;
+          const errorMessage = errorMessages.join("\n");
+          alert(errorMessage);
+        }); 
       }
     });
   }

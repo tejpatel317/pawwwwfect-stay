@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faBed, faDog, faUser } from '@fortawesome/free-solid-svg-icons'
-import { Container, Button } from 'react-bootstrap'
+import { faBed, faUser } from '@fortawesome/free-solid-svg-icons'
+import { Container } from 'react-bootstrap'
 import { NavLink, useLocation } from 'react-router-dom'
 
 function SitterHeader() {
