@@ -57,10 +57,10 @@ return (
         </div>
       </div>
     </div>
-  <div className="about-us-section text-center py-4 px-5">
-    <h2 className="about-us-title">ABOUT US</h2>
-    <p className="text-white">We're a platform that brings pet owners and sitters together. Our goal is to make it easy for pet owners to find trusted sitters, and for sitters to connect with pet owners in their area. Our platform is simple and user-friendly, so you can easily manage your bookings and communicate with your sitter or owner.</p>
-  </div>
+    <div className="about-us-section text-center py-4 px-5">
+      <h2 className="about-us-title">ABOUT US</h2>
+      <p className="text-white">We're a platform that brings pet owners and sitters together. Our goal is to make it easy for pet owners to find trusted sitters, and for sitters to connect with pet owners in their area. Our platform is simple and user-friendly, so you can easily manage your bookings and communicate with your sitter or owner.</p>
+    </div>
 </div>
 );
 }
