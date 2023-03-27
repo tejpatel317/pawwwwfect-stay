@@ -153,8 +153,29 @@ function App() {
     setUsers(newUsers);
   }
 
+  function deletePet(id) {
+    const newPets = pets.filter((pet) => pet.id !== id)
+    setPets(newPets)
+
+    const newBookings = bookings.map((booking) => {
+      const newBookingPets = booking.booking_pets.filter((bookingPet) => bookingPet.pet_id !== id);
+      if (newBookingPets.length === 0) {
+        return null; 
+      } else {
+        return { ...booking, booking_pets: newBookingPets };
+      }
+    }).filter((booking) => booking !== null);
+  
+    setBookings(newBookings);
+  }
+
   if (loading || dataLoading) {
-    return <div className="home-page"></div>;
+    return (
+      <div className="home-page d-flex justify-content-center align-items-center">
+        <div className="loadingtext">Loading...</div>
+        <div className="spinner-border mr-2" role="status" style={{ width: '3rem', height: '3rem' }}></div>
+      </div>
+    );
   }
 
   console.log({user: user})
@@ -164,7 +185,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <PetContext.Provider value={{pets, updatePets}}>
+      <PetContext.Provider value={{pets, updatePets, deletePet}}>
       <UserContext.Provider value={{user}}>
       <BookingContext.Provider value={{bookings, addBooking, deleteBooking, updateBooking}}>
       <UsersContext.Provider value={{users}}>

@@ -1,8 +1,27 @@
-import React from 'react';
-import { Card } from 'react-bootstrap';
+import React, {useContext} from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { PetContext } from './App';
 
 function PetCard({ pet }) {
-  const { name, species, breed, age, weight, description, image } = pet;
+  const { id, name, species, breed, age, weight, description, image } = pet;
+  const {deletePet} = useContext(PetContext)
+
+  function handleDelete(){
+    fetch(`/pets/${id}`, {
+      method: "DELETE",
+      })
+      .then((r) => {
+        if (r.ok) {
+          deletePet(id)
+        } else {
+          r.json().then((err) => {
+            const errorMessages = err.errors;
+            const errorMessage = errorMessages.join("\n");
+            alert(errorMessage);
+          }); 
+        }
+    });
+  }
 
   return (
     <Card>
@@ -14,8 +33,12 @@ function PetCard({ pet }) {
           Breed: {breed}<br />
           Age: {age}<br />
           Weight: {weight} lbs<br />
-          Description: {description}<br />
+          Description: {description}
+          <br />
         </Card.Text>
+        <Button variant="dark" onClick={handleDelete}>
+          Remove Pet
+        </Button>
       </Card.Body>
     </Card>
   );

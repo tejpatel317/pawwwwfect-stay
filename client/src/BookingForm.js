@@ -16,6 +16,9 @@ function BookingForm({usersitter}) {
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   useEffect(() => {
     if (service !== 'Pet Boarding' && startDate) {
       setEndDate(startDate)
@@ -107,6 +110,7 @@ function BookingForm({usersitter}) {
             placeholderText="Start Date"
             className="form-control mr-2"
             required
+            minDate={today}
           />
           {service !== 'Pet Sitting' && service !== 'Pet Activity' && (
             <DatePicker

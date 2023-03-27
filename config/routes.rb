@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :pets, only: [:index, :create]
+  resources :pets, only: [:index, :create, :destroy]
   resources :bookings, only: [:index, :create, :update, :destroy]
   post "/signup", to: "users#create"
   get "/users", to: "users#index"

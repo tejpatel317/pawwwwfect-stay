@@ -1,6 +1,6 @@
 class Pet < ApplicationRecord
     belongs_to :owner
-    has_many :booking_pets
+    has_many :booking_pets, dependent: :destroy
     has_many :bookings, through: :booking_pets
     
     validates :name, presence: true
